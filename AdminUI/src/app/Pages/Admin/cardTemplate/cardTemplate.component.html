@@ -1,0 +1,79 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th class="left">
+                <a class="clickable" (click) = "setSortField('id')">
+                    <span
+                    [style.font-weight]="sortField=='id'?'bold':''" >
+                        Id
+                    </span>
+                    <clr-icon shape="caret" style="transform: rotate(180deg);"  *ngIf="sortField=='id' && direction == 1"></clr-icon>
+                    <clr-icon shape="caret" *ngIf="sortField=='id' && direction == 0"></clr-icon>
+                </a>
+            </th>
+            
+            	<th class="left"> 
+                <a class="clickable" (click) = "setSortField('cardJson')">
+                    <span
+                    [style.font-weight]="sortField=='cardJson'?'bold':''" >
+                    Card Json
+                    </span>                    
+                </a>
+
+                <clr-icon shape="caret" style="transform: rotate(180deg);"  *ngIf="sortField=='cardJson' && direction == 1"></clr-icon>
+                <clr-icon shape="caret" *ngIf="sortField=='cardJson' && direction == 0"></clr-icon>
+            </th> 
+            <th></th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let cardTemplate of cardTemplates; let i = index">
+            <td class="left">{{cardTemplate.id}}</td>
+            <td > <img class="trimmedPreview" src="{{baseApi}}/images/cardTemplate/{{cardTemplate.id}}.png"> </td>
+            <td >{{cardTemplate.cardJson}}</td>
+            <td> 
+                <div class="btn-group btn-link btn-sm">
+                    <button class="btn"><clr-icon shape="form" (click) = "editCardTemplate(cardTemplate)"></clr-icon></button>
+                    <button class="btn" (click) = "loadDeleteCardTemplate(cardTemplate)"><clr-icon shape="trash"></clr-icon></button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+</table>
+
+<app-pager *ngIf="pagedetails.totalPages>1" [pager]="pagedetails" (selectPage)="onSelectPage($event)"></app-pager>
+
+<button class="btn btn-sm" (click) = "addCardTemplate()"><clr-icon shape="new"></clr-icon> Add CardTemplate</button>
+
+<clr-modal [(clrModalOpen)]="showCardTemplateDialog" *ngIf="selectedCardTemplate">
+    <h3 class="modal-title">Card Template</h3>
+    <div class="modal-body">
+            <form clrForm  clrLayout="horizontal">
+
+
+<clr-textarea-container>
+    <label>Card Template JSON</label>
+    <textarea clrTextarea rows="3" cols="120" [(ngModel)]="selectedCardTemplate.cardJson" name="cardJson"></textarea>
+  </clr-textarea-container>
+
+                
+            </form>        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" (click)="showCardTemplateDialog = false">Cancel </button>
+        <button type="button" class="btn" (click)="saveCardTemplate()">Save</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="showDeleteCardTemplateDialog" *ngIf="selectedCardTemplate">
+    <h3 class="modal-title">{{selectedCardTemplate.cardTemplate}}</h3>
+    <div class="modal-body">
+        Do you want to delete?    
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" (click)="showCardTemplateDialog = false">Cancel </button>
+        <button type="button" class="btn" (click)="deleteCardTemplate()">Delete</button>
+    </div>
+</clr-modal>

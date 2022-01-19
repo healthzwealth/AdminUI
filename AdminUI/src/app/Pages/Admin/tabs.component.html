@@ -1,0 +1,14 @@
+<h1 class="h1">
+    Admin
+</h1>
+
+
+<clr-tabs >
+    <clr-tab > 
+    <button clrTabLink (click)="activate('cardTemplate')">CardTemplate</button>
+    <clr-tab-content id="content1" *clrIfActive="activeTab=='cardTemplate'">
+    <app-cardTemplate></app-cardTemplate>
+    </clr-tab-content>
+</clr-tab>
+  
+</clr-tabs>
